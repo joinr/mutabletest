@@ -15,13 +15,13 @@
 ;;Execution time mean : 5.311472 ns
 
 
-(definterface IOObject
-  (setVal [new-val])
-  (getVal [])
-  (oswap [f])
-  (oswap [f x])
-  (oswap [f x y])
-  (oswap [f x y z]))
+(defprotocol IOObject
+  (setVal [this new-val])
+  (getVal [this])
+  (oswap [this f]
+         [this f x]
+         [this f x y]
+         [this f x y z]))
 
 (deftype OObject
     [^:unsynchronized-mutable val]
@@ -37,6 +37,17 @@
   clojure.lang.IDeref
   (deref [o] val))
 
+
+(defrecord counter [^long n]
+  IOObject
+  (setVal [o new-val] (counter. new-val))
+  (getVal [o] n)
+  (oswap [o f] (counter. (f n)))
+  (oswap [o f x] (counter. (f n x)))
+  (oswap [o f x y] (counter. (f n x y)))
+  (oswap [o f x y z] (counter. (f n  x y z)))
+  clojure.lang.IFn
+  (invoke [this k] (when (identical? k :n) n)))
 
 (defn ref-test []
   (let [a (ref 0)]
@@ -125,8 +136,8 @@
 (defn type-test []
   (let [o (OObject. 0)]
     (c/quick-bench
-       (.oswap o (fn [^long val] (inc val))))))
-;; Execution time mean : 19.241519 ns
+     (.oswap o (fn [^long val] (inc val))))))
+;;Execution time mean : 18.560995 ns
 
 (defn type-test-unchecked []
   (let [o (OObject. 0)]
@@ -140,6 +151,35 @@
      (.oswap o (fn [^long val] (p/inc val))))))
 ;; Execution time mean : 17.708783 ns
 
+(defn record-test []
+  (let [c (->counter 0)]
+    (c/quick-bench (->counter (inc (c :n))))))
+;;Execution time mean : 45.013730 ns
+
+(defn record-test-dm []
+  (let [^counter c (->counter 0)]
+    (c/quick-bench (counter. (inc (.n c))))))
+;;Execution time mean : 12.756774 ns
+
+(defn record-test-prim []
+  (let [^counter c (->counter 0)]
+    (c/quick-bench (counter. (p/inc (.n c))))))
+;;Execution time mean : 11.895746 ns
+
+(defn record-test-protocol []
+  (let [^counter c (->counter 0)]
+    (c/quick-bench (oswap c inc))))
+;;Execution time mean : 49.945048 ns
+
+(defn record-test-protocol-prim []
+  (let [^counter c (->counter 0)]
+    (c/quick-bench (oswap c #(p/inc ^long %)))))
+;;  Execution time mean : 43.647200 ns
+
+(defn record-test-protocol-set []
+  (let [^counter c (->counter 0)]
+    (c/quick-bench (setVal c (p/inc ^long (getVal c))))))
+;;  Execution time mean : 44.326989 ns
 
 (defn arr-test []
   (let [x (object-array [0])]
