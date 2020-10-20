@@ -1,10 +1,10 @@
 * mutabletest
 
-An extended exploration of mutation schemes derived from [[https://gist.githubusercontent.com/lnostdal/1fbd9b3d2ddc7bff1830638ea88348cc/raw/4b8a41782ee1ee36957e1ef6c37b375ce43d2a11/fast_local_mutation.clj][the original]] . I would
-not consider this authoritative, and inclusive all possible options, but maybe
-it provides a decent approximation for the orders of magnitude differences or
-lack thereof between read/write access for different reference types. We also
-include benchmarks for various unsafe, non-STM schemes.
+An extended exploration of mutation schemes derived from [[https://gist.githubusercontent.com/lnostdal/1fbd9b3d2ddc7bff1830638ea88348cc/raw/4b8a41782ee1ee36957e1ef6c37b375ce43d2a11/fast_local_mutation.clj][the original by user
+lnostdal]] . I would not consider this authoritative, and inclusive all possible
+options, but maybe it provides a decent approximation for the orders of
+magnitude differences or lack thereof between read/write access for different
+reference types. We also include benchmarks for various unsafe, non-STM schemes.
 
 
 ** Usage
