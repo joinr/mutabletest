@@ -1,0 +1,70 @@
+* mutabletest
+
+An extended exploration of mutation schemes derived from [[https://gist.githubusercontent.com/lnostdal/1fbd9b3d2ddc7bff1830638ea88348cc/raw/4b8a41782ee1ee36957e1ef6c37b375ce43d2a11/fast_local_mutation.clj][the original]] . I would
+not consider this authoritative, and inclusive all possible options, but maybe
+it provides a decent approximation for the orders of magnitude differences or
+lack thereof between read/write access for different reference types. We also
+include benchmarks for various unsafe, non-STM schemes.
+
+
+** Usage
+
+run all the performance tests via ~lein test~, which will print results
+to out.  It may take a while.  
+
+Alternately, load up the ~mutabletest.core~ namespace and run individual tests
+from the REPL.
+
+* Baseline Results
+
+| Test Name                 | Mean Execution Time | Run Index |
+|---------------------------+---------------------+-----------|
+| simple-test               | 1.847169 ns         |         0 |
+| ref-test                  | 4.343269 ╡s         |         1 |
+| ref-test-commute          | 4.382380 ╡s         |         2 |
+| agent-test                | 25.589072 ╡s        |         3 |
+| wlv-test                  | 94.012111 ns        |         4 |
+| wlv-test-unchecked        | 96.909642 ns        |         5 |
+| wlv-test-primitive        | 93.798778 ns        |         6 |
+| atom-test                 | 12.957539 ns        |         7 |
+| atom-test-unchecked       | 12.867746 ns        |         8 |
+| atom-test-prim            | 12.870019 ns        |         9 |
+| atom-test-direct          | 14.064985 ns        |        10 |
+| vol-test                  | 11.685760 ns        |        11 |
+| vol-test-unchecked        | 11.730491 ns        |        12 |
+| vol-test-prim             | 11.570217 ns        |        13 |
+| type-test                 | 6.239135 ns         |        14 |
+| type-test-unchecked       | 5.783982 ns         |        15 |
+| type-test-prim            | 5.615886 ns         |        16 |
+| record-test               | 8.634737 ns         |        17 |
+| record-test-dm            | 5.304964 ns         |        18 |
+| record-test-prim          | 5.152797 ns         |        19 |
+| record-test-protocol      | 10.238678 ns        |        20 |
+| record-test-protocol-prim | 7.645119 ns         |        21 |
+| record-test-protocol-set  | 8.046449 ns         |        22 |
+| arr-test                  | 7.603642 ns         |        23 |
+| arr-test-unchecked        | 7.049409 ns         |        24 |
+| arrcell-test              | 9.071554 ns         |        25 |
+| arrcell-test-unchecked    | 6.287966 ns         |        26 |
+| long-test                 | 5.754951 ns         |        27 |
+| long-test-unchecked       | 5.135368 ns         |        28 |
+| long-test-prim            | 5.150198 ns         |        29 |
+| prot-test                 | 4.738527 ns         |        30 |
+| prot-test-unchecked       | 4.450573 ns         |        31 |
+| prot-test-prim            | 4.325293 ns         |        32 |
+
+
+** License
+
+Copyright © 2020 FIXME
+
+This program and the accompanying materials are made available under the
+terms of the Eclipse Public License 2.0 which is available at
+http://www.eclipse.org/legal/epl-2.0.
+
+This Source Code may also be made available under the following Secondary
+Licenses when the conditions for such availability set forth in the Eclipse
+Public License, v. 2.0 are satisfied: GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or (at your
+option) any later version, with the GNU Classpath Exception which is available
+at https://www.gnu.org/software/classpath/license.html.
