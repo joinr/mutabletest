@@ -17,42 +17,41 @@ from the REPL.
 
 * Baseline Results
 
-| Test Name                 | Mean Execution Time | Run Index |
-|---------------------------+---------------------+-----------|
-| simple-test               | 1.847169 ns         |         0 |
-| ref-test                  | 4.343269 ╡s         |         1 |
-| ref-test-commute          | 4.382380 ╡s         |         2 |
-| agent-test                | 25.589072 ╡s        |         3 |
-| wlv-test                  | 94.012111 ns        |         4 |
-| wlv-test-unchecked        | 96.909642 ns        |         5 |
-| wlv-test-primitive        | 93.798778 ns        |         6 |
-| atom-test                 | 12.957539 ns        |         7 |
-| atom-test-unchecked       | 12.867746 ns        |         8 |
-| atom-test-prim            | 12.870019 ns        |         9 |
-| atom-test-direct          | 14.064985 ns        |        10 |
-| vol-test                  | 11.685760 ns        |        11 |
-| vol-test-unchecked        | 11.730491 ns        |        12 |
-| vol-test-prim             | 11.570217 ns        |        13 |
-| type-test                 | 6.239135 ns         |        14 |
-| type-test-unchecked       | 5.783982 ns         |        15 |
-| type-test-prim            | 5.615886 ns         |        16 |
-| record-test               | 8.634737 ns         |        17 |
-| record-test-dm            | 5.304964 ns         |        18 |
-| record-test-prim          | 5.152797 ns         |        19 |
-| record-test-protocol      | 10.238678 ns        |        20 |
-| record-test-protocol-prim | 7.645119 ns         |        21 |
-| record-test-protocol-set  | 8.046449 ns         |        22 |
-| arr-test                  | 7.603642 ns         |        23 |
-| arr-test-unchecked        | 7.049409 ns         |        24 |
-| arrcell-test              | 9.071554 ns         |        25 |
-| arrcell-test-unchecked    | 6.287966 ns         |        26 |
-| long-test                 | 5.754951 ns         |        27 |
-| long-test-unchecked       | 5.135368 ns         |        28 |
-| long-test-prim            | 5.150198 ns         |        29 |
-| prot-test                 | 4.738527 ns         |        30 |
-| prot-test-unchecked       | 4.450573 ns         |        31 |
-| prot-test-prim            | 4.325293 ns         |        32 |
-
+| Test Name                 | Execution Time (Mean) | Run Index |
+|---------------------------+-----------------------+-----------|
+| simple-test               | 1.501725 ns           |         0 |
+| ref-test                  | 4.316672 ╡s           |         1 |
+| ref-test-commute          | 4.396658 ╡s           |         2 |
+| agent-test                | 26.475037 ╡s          |         3 |
+| wlv-test                  | 94.949400 ns          |         4 |
+| wlv-test-unchecked        | 95.619535 ns          |         5 |
+| wlv-test-primitive        | 94.236996 ns          |         6 |
+| atom-test                 | 12.446893 ns          |         7 |
+| atom-test-unchecked       | 12.468303 ns          |         8 |
+| atom-test-prim            | 12.449271 ns          |         9 |
+| atom-test-direct          | 12.639497 ns          |        10 |
+| vol-test                  | 11.248588 ns          |        11 |
+| vol-test-unchecked        | 10.891129 ns          |        12 |
+| vol-test-prim             | 10.907258 ns          |        13 |
+| type-test                 | 6.026132 ns           |        14 |
+| type-test-unchecked       | 5.348051 ns           |        15 |
+| type-test-prim            | 5.412399 ns           |        16 |
+| record-test               | 8.372031 ns           |        17 |
+| record-test-dm            | 4.828263 ns           |        18 |
+| record-test-prim          | 4.428549 ns           |        19 |
+| record-test-protocol      | 9.506414 ns           |        20 |
+| record-test-protocol-prim | 7.022870 ns           |        21 |
+| record-test-protocol-set  | 7.648558 ns           |        22 |
+| arr-test                  | 7.524448 ns           |        23 |
+| arr-test-unchecked        | 6.343124 ns           |        24 |
+| arrcell-test              | 8.161783 ns           |        25 |
+| arrcell-test-unchecked    | 5.998361 ns           |        26 |
+| long-test                 | 5.376331 ns           |        27 |
+| long-test-unchecked       | 4.637578 ns           |        28 |
+| long-test-prim            | 4.757877 ns           |        29 |
+| prot-test                 | 4.289879 ns           |        30 |
+| prot-test-unchecked       | 3.975180 ns           |        31 |
+| prot-test-prim            | 3.966979 ns           |        32 |
 
 ** License
 
