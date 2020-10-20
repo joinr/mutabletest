@@ -27,15 +27,17 @@
     [^:unsynchronized-mutable val]
 
   IOObject
-  (setVal [o new-val] (set! val new-val))
+  (setVal [o new-val] (set! val new-val) o)
   (getVal [o] val)
-  (oswap [o f] (set! val (f val)))
-  (oswap [o f x] (set! val (f val x)))
-  (oswap [o f x y] (set! val (f val x y)))
-  (oswap [o f x y z] (set! val (f val x y z)))
+  (oswap [o f] (set! val (f val)) o)
+  (oswap [o f x] (set! val (f val x)) o)
+  (oswap [o f x y] (set! val (f val x y)) o)
+  (oswap [o f x y z] (set! val (f val x y z)) o)
 
   clojure.lang.IDeref
-  (deref [o] val))
+  (deref [o] val)
+  clojure.lang.IAtom
+  (swap [this f] (.oswap this f)))
 
 
 (defrecord counter [^long n]
@@ -48,6 +50,20 @@
   (oswap [o f x y z] (counter. (f n  x y z)))
   clojure.lang.IFn
   (invoke [this k] (when (identical? k :n) n)))
+
+(deftype arraycell [^objects box]
+  clojure.lang.IDeref
+  (deref [this] (aget box 0) this)
+  clojure.lang.IAtom
+  (reset [this x] (aset box 0 x) this)
+  (swap [this f]  (aset box 0 (f (aget box 0))) this))
+
+(deftype cell [^{:unsynchronized-mutable true} contents]
+  clojure.lang.IDeref
+  (deref [this] contents)
+  clojure.lang.IAtom
+  (reset [this x] (set! contents x) this)
+  (swap [this f]  (set! contents (f contents)) this))
 
 (defn ref-test []
   (let [a (ref 0)]
@@ -191,6 +207,20 @@
     (c/quick-bench
      (aset x 0 (unchecked-inc  (aget x 0))))))
 ;;Execution time mean : 24.449794 ns
+
+;;sometimes inline aset/aget are not happy for profiling, since
+;;they obfuscate hotspot.  They seem to like to be in methods..
+;;let's wrap them in an object an see if we're faster.
+;;[These are both faster]
+(defn arrcell-test []
+  (let [^arraycell x (arraycell. (object-array [0]))]
+    (c/quick-bench
+     (.swap x #(inc %)))))
+
+(defn arrcell-test-unchecked []
+  (let [^arraycell x (arraycell. (object-array [0]))]
+    (c/quick-bench
+     (.swap x #(unchecked-inc ^long %)))))
 
 ;;Just smashing on a long in an array should be getting
 ;;towards some bounds...
